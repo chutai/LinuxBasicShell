@@ -1,24 +1,41 @@
 #!/bin/bash
 
-var="aaaatest"
-num=15
-
+var=aaaatest
+number=20
+declare -a arrRecord
 function savetofile(){
-  ghep="$1 $num"
-	touch testfile.txt
-	echo "$ghep" >> "testfile.txt"
+  ghep="$1 $number"
+  touch testfile.txt
+  count=0
+  	while IFS= read -r line
+	do
+    arrRecord[$count]=$line
+    count=$[$count+1]
+	done < testfile.txt
+
+  if [ $count -le 10 ]; then
+    echo "$ghep" >> "testfile.txt"
+  elif [ $count -eq 10 ]; then
+    echo -n " " > "testfile.txt"
+    for ((i = 0; i <= $count; ++i))
+  do
+	  echo ${arrRecord[$i]} >> "testfile.txt"
+  done
+  fi
+
   sort -nrk 2,2 testfile.txt
 }
+
 function readfromfile(){
-  sort -nrk 2,2 testfile.txt
-	#while IFS= read -r line
-	#do
-  #	echo "$line"
-	#done < testfile.txt
+	while IFS= read -r line
+	do
+  	echo "$line"
+	done < testfile.txt
 }
+
 	while :
 	do
-		clear
+		#clear
 		
 		read -rsn1 MENU_KEY
 		case "$MENU_KEY" in
@@ -31,9 +48,6 @@ function readfromfile(){
 			;;
 		3)	echo "save"
       read name
-      if [$name eq '']; then
-      name=noname
-      fi
 			savetofile $name
 			#break;
 			;;
