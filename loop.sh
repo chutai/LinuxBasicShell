@@ -1,15 +1,20 @@
 #!/bin/bash
 
 var="aaaatest"
+num=15
+
 function savetofile(){
-	touch ${HOME}/shell/testfile.txt
-	echo "$var" >> "${HOME}/shell/testfile.txt"
+  ghep="$1 $num"
+	touch testfile.txt
+	echo "$ghep" >> "testfile.txt"
+  sort -nrk 2,2 testfile.txt
 }
 function readfromfile(){
-	while IFS= read -r line
-	do
-  	echo "$line"
-	done < testfile.txt
+  sort -nrk 2,2 testfile.txt
+	#while IFS= read -r line
+	#do
+  #	echo "$line"
+	#done < testfile.txt
 }
 	while :
 	do
@@ -25,10 +30,15 @@ function readfromfile(){
 			echo "Record"
 			;;
 		3)	echo "save"
-			savetofile
+      read name
+      if [$name eq '']; then
+      name=noname
+      fi
+			savetofile $name
 			#break;
 			;;
 		4)	echo "read"
+      
 			readfromfile
 			break;
 			;;
