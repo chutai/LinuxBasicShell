@@ -463,8 +463,8 @@ function savetofile(){
 
   	if [ $count -le 9 ]; then
     	echo "$data" >> "Record.txt"
-  	elif [ $count -eq 11 ]; then
-	  	count=10
+  	elif [ $count -eq 10 ]; then
+	  	count=9
 		arrRecord[$count]=$data
 		rm Record.txt
 		touch Record.txt
