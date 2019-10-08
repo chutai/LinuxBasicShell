@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 declare -A matrix
+declare -a arrRecord
 num_row=10
 num_col=5
 
@@ -286,7 +287,7 @@ function frog_check() {
 		if [[ $[matrix[$frog_x, $frog_y]] -eq 1 ]]
 		then
 			HEALTH=$[$HEALTH - 1]
-			( mplayer frog_kick.mp3 </dev/null >/dev/null 2>&1 )&
+			#( mplayer frog_kick.mp3 </dev/null >/dev/null 2>&1 )&
 		fi
 	fi
 }
@@ -366,7 +367,7 @@ function processor() {
 ########
 
 function title_screen() {
-	( mplayer -loop 0 frog_main_theme.mp3 </dev/null >/dev/null 2>&1 ) &
+	#( mplayer -loop 0 frog_main_theme.mp3 </dev/null >/dev/null 2>&1 ) &
 	clear
 	printf_x_y 1 1 "\e[1;32m _____ _          _____                _____     _             \e[0m"
 	printf_x_y 1 2 "\e[1;32m|_   _| |_ ___   |   __|___ ___ ___   |  _  |___|_|___ ___ ___ \e[0m"
@@ -376,10 +377,11 @@ function title_screen() {
 	printf_x_y 1 6 "\e[1;36m                    Choose one below:                       \e[0m"
 	printf_x_y 1 8 "\e[1;36m                    1. New Game                       \e[0m"
 	printf_x_y 1 9 "\e[1;36m                    2. Record                       \e[0m"
+	printf_x_y 1 10 "\e[1;36m                    3. Quit game!                      \e[0m"
 }
 
 function next_level_screen() {
-	( mplayer frog_next_level.mp3 </dev/null >/dev/null 2>&1 ) &
+	#( mplayer frog_next_level.mp3 </dev/null >/dev/null 2>&1 ) &
 	clear
 	printf_x_y 1 1 "\e[0;31m _____ _____ __ __ _____    __    _____ _____ _____ __    \e[0m"
 	printf_x_y 1 2 "\e[1;31m|   | |   __|  |  |_   _|  |  |  |   __|  |  |   __|  |   \e[0m"
@@ -390,43 +392,47 @@ function next_level_screen() {
 }
 
 function game_over_screen() {
-	( mplayer frog_game_over.mp3 </dev/null >/dev/null 2>&1 ) &
+	#( mplayer frog_game_over.mp3 </dev/null >/dev/null 2>&1 ) &
 	clear
 	printf_x_y 1 1 "\e[0;31m _____ _____ _____ _____    _____ _____ _____ _____ \e[0m"
 	printf_x_y 1 2 "\e[1;31m|   __|  _  |     |   __|  |     |  |  |   __| __  |\e[0m"
 	printf_x_y 1 3 "\e[0;32m|  |  |     | | | |   __|  |  |  |  |  |   __|    -|\e[0m"
 	printf_x_y 1 4 "\e[1;32m|_____|__|__|_|_|_|_____|  |_____|\___/|_____|__|__|\e[0m"
-	printf_x_y 1 6 "\e[1;36m              Press enter to continue               \e[0m"
-	printf_x_y 1 8 "─────────▄██████▀▀▀▀▀▀▄"
-	printf_x_y 1 9 "─────▄█████████▄───────▀▀▄▄"
-	printf_x_y 1 10 "──▄█████████████───────────▀▀▄"
-	printf_x_y 1 11 "▄██████████████─▄▀───▀▄─▀▄▄▄──▀▄"
-	printf_x_y 1 12 "███████████████──▄▀─▀▄▄▄▄▄▄────█"
-	printf_x_y 1 13 "█████████████████▀█──▄█▄▄▄──────█"
-	printf_x_y 1 14 "███████████──█▀█──▀▄─█─█─█───────█"
-	printf_x_y 1 15 "████████████████───▀█─▀██▄▄──────█"
-	printf_x_y 1 16 "█████████████████──▄─▀█▄─────▄───█"
-	printf_x_y 1 17 "█████████████████▀███▀▀─▀▄────█──█"
-	printf_x_y 1 18 "████████████████──────────█──▄▀──█"
-	printf_x_y 1 19 "████████████████▄▀▀▀▀▀▀▄──█──────█"
-	printf_x_y 1 20 "████████████████▀▀▀▀▀▀▀▄──█──────█"
-	printf_x_y 1 21 "▀████████████████▀▀▀▀▀▀──────────█"
-	printf_x_y 1 22 "──███████████████▀▀─────█──────▄▀"
-	printf_x_y 1 23 "──▀█████████████────────█────▄▀"
-	printf_x_y 1 24 "────▀████████████▄───▄▄█▀─▄█▀"
-	printf_x_y 1 25 "──────▀████████████▀▀▀──▄███"
-	printf_x_y 1 26 "──────████████████████████─█"
-	printf_x_y 1 27 "─────████████████████████──█"
-	printf_x_y 1 28 "────████████████████████───█"
-	printf_x_y 1 29 "────██████████████████─────█"
-	printf_x_y 1 30 "────██████████████████─────█"
+	printf_x_y 1 6 "\e[1;36m              Choose one below:               \e[0m"
+	printf_x_y 1 7 "\e[1;36m              1.New game               		\e[0m"
+	printf_x_y 1 8 "\e[1;36m              2.Save your score               \e[0m"
+	printf_x_y 1 9 "\e[1;36m              3.Quit game!               \e[0m"
+	printf_x_y 1 10 "─────────▄██████▀▀▀▀▀▀▄"
+	printf_x_y 1 11 "─────▄█████████▄───────▀▀▄▄"
+	printf_x_y 1 12 "──▄█████████████───────────▀▀▄"
+	printf_x_y 1 13 "▄██████████████─▄▀───▀▄─▀▄▄▄──▀▄"
+	printf_x_y 1 14 "███████████████──▄▀─▀▄▄▄▄▄▄────█"
+	printf_x_y 1 15 "█████████████████▀█──▄█▄▄▄──────█"
+	printf_x_y 1 16 "███████████──█▀█──▀▄─█─█─█───────█"
+	printf_x_y 1 17 "████████████████───▀█─▀██▄▄──────█"
+	printf_x_y 1 18 "█████████████████──▄─▀█▄─────▄───█"
+	printf_x_y 1 19 "█████████████████▀███▀▀─▀▄────█──█"
+	printf_x_y 1 20 "████████████████──────────█──▄▀──█"
+	printf_x_y 1 21 "████████████████▄▀▀▀▀▀▀▄──█──────█"
+	printf_x_y 1 22 "████████████████▀▀▀▀▀▀▀▄──█──────█"
+	printf_x_y 1 23 "▀████████████████▀▀▀▀▀▀──────────█"
+	printf_x_y 1 24 "──███████████████▀▀─────█──────▄▀"
+	printf_x_y 1 25 "──▀█████████████────────█────▄▀"
+	printf_x_y 1 26 "────▀████████████▄───▄▄█▀─▄█▀"
+	printf_x_y 1 27 "──────▀████████████▀▀▀──▄███"
+	printf_x_y 1 28 "──────████████████████████─█"
+	printf_x_y 1 29 "─────████████████████████──█"
+	printf_x_y 1 30 "────████████████████████───█"
 	printf_x_y 1 31 "────██████████████████─────█"
 	printf_x_y 1 32 "────██████████████████─────█"
-	printf_x_y 1 33 "────██████████████████▄▄▄▄▄█"
-	read
+	printf_x_y 1 33 "────██████████████████─────█"
+	printf_x_y 1 34 "────██████████████████─────█"
+	printf_x_y 1 35 "────██████████████████▄▄▄▄▄█"
+	
 }
 
 function new_game() {
+	printf "\e[?25l" # Turn off cursor
 	clear
 	KEY=''
 	op_init
@@ -445,45 +451,131 @@ function next_level() {
 	LEVEL=$[$LEVEL + 1]
 	new_game
 }
+function savetofile(){
+  	data="Level: $LEVEL	$1"
+  	touch Record.txt
+  	count=0
+	while IFS= read -r line
+	do
+    	arrRecord[$count]=$line
+    	count=$[$count + 1]
+	done < Record.txt
 
+  	if [ $count -le 9 ]; then
+    	echo "$data" >> "Record.txt"
+  	elif [ $count -eq 11 ]; then
+	  	count=10
+		arrRecord[$count]=$data
+		rm Record.txt
+		touch Record.txt
+    	for ((i = 0; i <= $count; ++i))
+  		do
+		  echo ${arrRecord[$i]}
+			echo ${arrRecord[$i]} >> "Record.txt"
+  		done
+  	fi
+  	sort -nrk 2,2 Record.txt > Record1.txt
+	rm Record.txt
+	mv Record1.txt Record.txt
+	readRecord
+	
+}
+function game_exit() {
+	printf "\e[?9l"         # Turn off mouse reading
+	printf "\e[?12l\e[?25h" # Turn on cursor
+	kill $(ps aux | grep "frog.sh" | awk '{print $2}')
+	clear
+}
 function game_over() {
 	trap : ALRM # disable interupt
-	game_over_screen
-	num_col=5
-	HEALTH=10
-	LEVEL=1
-	new_game
-}
-function Record(){
 	
+		clear
+		game_over_screen
+		read -rsn1 -t 0.1 OVER_KEY
+		
+		case "$OVER_KEY" in
+		1) 
+		#while read -e -t 0.1; do : ; done
+			num_col=5
+			HEALTH=10
+			LEVEL=1
+			new_game
+			;;
+
+		2) 		clear
+				printf_x_y 1 1 "\e[0;31m _____ _____ _____ _____    _____ _____ _____ _____ \e[0m"
+				printf_x_y 1 2 "\e[1;31m|   __|  _  |     |   __|  |     |  |  |   __| __  |\e[0m"
+				printf_x_y 1 3 "\e[0;32m|  |  |     | | | |   __|  |  |  |  |  |   __|    -|\e[0m"
+				printf_x_y 1 4 "\e[1;32m|_____|__|__|_|_|_|_____|  |_____|\___/|_____|__|__|\e[0m"
+				printf_x_y 1 6 "\e[1;36m              Types your name:               \e[0m"
+				#printf_x_y 1 7 "\e[1;36m              1.New game               		\e[0m"
+				#printf_x_y 1 8 "\e[1;36m              2.Save your score               \e[0m"
+				#printf_x_y 1 9 "\e[1;36m              2.Quit game!               \e[0m"
+			name="noname"
+			read name 
+			if [ $name -eq '' ]; then
+				name="noname"
+			fi
+			savetofile $name
+			game_init
+			;;
+		3) 	game_exit
+			;;
+		*) 	
+			echo " Sorry, I dont know what you want"
+			game_over
+		esac
+
+	
+}
+
+function readRecord(){
+	touch Record.txt
+	clear
+	temp=7
+	printf_x_y 1 1 "\e[1;32m _____ _          _____                _____     _             \e[0m"
+	printf_x_y 1 2 "\e[1;32m|_   _| |_ ___   |   __|___ ___ ___   |  _  |___|_|___ ___ ___ \e[0m"
+	printf_x_y 1 3 "\e[1;32m  | | |   | -_|  |   __|  _| . | . |  |   __|  _| |   |  _| -_|\e[0m"
+	printf_x_y 1 4 "\e[1;32m  |_| |_|_|___|  |__|  |_| |___|_  |  |__|  |_| |_|_|_|___|___|\e[0m"
+	printf_x_y 1 5 "\e[1;32m                               |___|                           \e[0m"
+	while IFS= read -r line
+	do
+	printf_x_y 1 6 "\e[1;36m                    Enter to continue:                       \e[0m"
+	printf_x_y 1 $temp "\e[1;36m                    $line                       \e[0m"
+	temp=$[$temp+1]
+	done < Record.txt
+	read
 }
 function game_init() {
 	printf "\e[?25l" # Turn off cursor
 	trap game_exit ERR EXIT
-	while :
-	do
+	#while :
+	#do
 		clear
 		title_screen
 		read -rsn1 MENU_KEY
 		case "$MENU_KEY" in
 		1) 
+			num_col=5
+			HEALTH=10
+			LEVEL=1
 			new_game
-			break
 			;;
 		2) 	
-			Record
+			readRecord
+			game_init
 			;;
-		*) 	echo " Sorry, I dont know what you want"
+		3) 	game_exit
+			;;
+		*) 	
+			echo " Sorry, I dont know what you want"
+			game_init
+			;;
 		esac
-	done
+	#done
 }
 
-function game_exit() {
-	printf "\e[?9l"         # Turn off mouse reading
-	printf "\e[?12l\e[?25h" # Turn on cursor
-	# kill $(ps aux | grep "frog.sh" | awk '{print $2}')
-	clear
-}
+
 
 ########
 # MAIN #
@@ -491,13 +583,9 @@ function game_exit() {
 
 # kill $(ps aux | grep "KICK.mp3" | awk '{print $2}')
 game_init
-#while :
-#do
-
-#done
 
 while :
-	do
+do
 	read -rsn1 KEY
 done
 
