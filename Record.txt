@@ -1,0 +1,8 @@
+Level: 11	Chutai123
+Level: 7	TheTai
+Level: 7	ChuTheTai
+Level: 6	TheTai
+Level: 4	Chu
+Level: 2	chuthetai
+Level: 1	first
+
